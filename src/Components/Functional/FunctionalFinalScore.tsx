@@ -19,5 +19,3 @@ export const FunctionalFinalScore: React.FC<Props> = ({
     </div>
   </div>
 );
-
-export default FunctionalFinalScore;
