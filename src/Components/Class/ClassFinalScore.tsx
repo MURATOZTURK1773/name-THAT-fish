@@ -1,17 +1,19 @@
 import { Component } from "react";
 
-const totalCount = 0;
-const correctCount = 0;
+interface Props {
+  correctCount: number;
+  totalCount: number;
+}
 
-export class ClassFinalScore extends Component {
+export class ClassFinalScore extends Component<Props> {
   render() {
     return (
       <div id="final-score">
         <h1>Your Final Score Was</h1>
         <div id="score">
-          <p>{correctCount}</p>
+          <p>{this.props.correctCount}</p>
           <hr />
-          <p>{totalCount}</p>
+          <p>{this.props.totalCount}</p>
         </div>
       </div>
     );
