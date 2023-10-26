@@ -4,7 +4,6 @@ import "./styles/score-board.css";
 interface Props {
   incorrectCount: number;
   correctCount: number;
-  handleAnswer: (answer: string) => void;
   answersLeft: string[];
 }
 

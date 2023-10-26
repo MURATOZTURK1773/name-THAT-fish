@@ -18,15 +18,14 @@ export class ClassGameBoard extends Component<Props, State> {
 
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { userGuess } = this.state;
-    this.props.handleAnswer(userGuess);
+    this.props.handleAnswer(this.state.userGuess);
     this.setState({ userGuess: "" });
   };
 
   render() {
     const { fishIndex } = this.props;
     const fishData = initialFishes[fishIndex];
-    const imageUrl = fishData ? fishData.url : "";
+    const imageUrl = fishData.url;
 
     return (
       <div id="game-board">
