@@ -19,13 +19,6 @@ export class ClassApp extends Component<State> {
     answersLeft: initialFishes.map((fish) => fish.name),
   };
 
-  fishIndex = this.state.correctCount + this.state.incorrectCount;
-  totalCount = initialFishes.length;
-
-  answersLeft = initialFishes
-    .slice(this.state.fishIndex)
-    .map((fish) => fish.name);
-
   handleAnswer = (answer: string) => {
     if (initialFishes[this.state.fishIndex].name === answer) {
       this.setState({
@@ -43,28 +36,27 @@ export class ClassApp extends Component<State> {
 
   render() {
     const fishIndex = this.state.correctCount + this.state.incorrectCount;
+    const totalCount = initialFishes.length;
+    const answersLeft = initialFishes.slice(fishIndex).map((fish) => fish.name);
+    const isGameOver = fishIndex === totalCount;
 
     return (
       <>
-        <>
-          <ClassScoreBoard
-            handleAnswer={this.handleAnswer}
-            incorrectCount={this.state.incorrectCount}
-            correctCount={this.state.correctCount}
-            answersLeft={this.state.answersLeft}
-          />
-          {this.answersLeft.length > 0 && (
-            <ClassGameBoard
+        {!isGameOver && (
+          <>
+            <ClassScoreBoard
+              handleAnswer={this.handleAnswer}
+              incorrectCount={this.state.incorrectCount}
               correctCount={this.state.correctCount}
-              totalCount={this.totalCount}
-              userGuess=""
-              answersLeft={this.answersLeft}
+              answersLeft={answersLeft}
+            />
+            <ClassGameBoard
               fishIndex={this.state.fishIndex}
               handleAnswer={this.handleAnswer}
             />
-          )}
-        </>
-        {this.answersLeft.length === 0 && (
+          </>
+        )}
+        {isGameOver && (
           <ClassFinalScore
             correctCount={this.state.correctCount}
             totalCount={fishIndex}

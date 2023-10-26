@@ -5,46 +5,38 @@ import { useState } from "react";
 import { initialFishes } from "./Constants";
 
 export function FunctionalApp() {
-  const [correctCount, setCorrect] = useState(0);
-  const [incorrectCount, setInCorrect] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setInCorrectCount] = useState(0);
 
   const fishIndex = correctCount + incorrectCount;
-  const totalCount = fishIndex;
-
+  const totalCount = initialFishes.length;
   const answersLeft = initialFishes.slice(fishIndex).map((fish) => fish.name);
+  const isGameOver = fishIndex === totalCount;
 
   const handleAnswer = (answer: string) => {
     if (initialFishes[fishIndex].name === answer) {
-      setCorrect(correctCount + 1);
+      setCorrectCount(correctCount + 1);
     } else {
-      setInCorrect(incorrectCount + 1);
-    }
-    if (answersLeft.length === 0) {
-      return (
-        <FunctionalFinalScore
-          correctCount={correctCount}
-          totalCount={totalCount}
-        />
-      );
+      setInCorrectCount(incorrectCount + 1);
     }
   };
 
   return (
     <>
-      <FunctionalScoreBoard
-        handleAnswer={handleAnswer}
-        incorrectCount={incorrectCount}
-        correctCount={correctCount}
-        answersLeft={answersLeft}
-      />
-      {answersLeft.length > 0 && (
-        <FunctionalGameBoard
-          fishIndex={fishIndex}
-          handleAnswer={handleAnswer}
-          answersLeft={answersLeft}
-        />
+      {!isGameOver && (
+        <>
+          <FunctionalScoreBoard
+            incorrectCount={incorrectCount}
+            correctCount={correctCount}
+            answersLeft={answersLeft}
+          />
+          <FunctionalGameBoard
+            handleAnswer={handleAnswer}
+            fishData={initialFishes[fishIndex]}
+          />
+        </>
       )}
-      {answersLeft.length === 0 && (
+      {isGameOver && (
         <FunctionalFinalScore
           correctCount={correctCount}
           totalCount={totalCount}

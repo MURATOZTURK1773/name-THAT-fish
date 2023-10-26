@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import "./styles/game-board.css";
 import { initialFishes } from "./Constants";
-import { ClassFinalScore } from "./ClassFinalScore";
 
 interface Props {
-  answersLeft: string[];
   fishIndex: number;
-  userGuess: string;
   handleAnswer: (answer: string) => void;
-  correctCount: number;
-  totalCount: number;
 }
 
 interface State {
@@ -17,36 +12,26 @@ interface State {
 }
 
 export class ClassGameBoard extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      userGuess: props.userGuess,
-    };
-  }
+  state = {
+    userGuess: "",
+  };
 
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { userGuess } = this.state;
     this.props.handleAnswer(userGuess);
+    this.setState({ userGuess: "" });
   };
 
   render() {
-    const { answersLeft, fishIndex, correctCount } = this.props;
-    const nextFishToName = answersLeft[fishIndex];
+    const { fishIndex } = this.props;
     const fishData = initialFishes[fishIndex];
     const imageUrl = fishData ? fishData.url : "";
-
-    if (!fishData || !fishData.url) {
-      return (
-        <ClassFinalScore correctCount={correctCount} totalCount={fishIndex} />
-      );
-    }
 
     return (
       <div id="game-board">
         <div id="fish-container">
-          <img src={imageUrl} alt={nextFishToName} />
+          <img src={imageUrl} alt={fishData.name} />
         </div>
         <form id="fish-guess-form" onSubmit={this.handleSubmit}>
           <label htmlFor="fish-guess">What kind of fish is this?</label>
